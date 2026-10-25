@@ -1,0 +1,30 @@
+GPower.exe
+*.exe
+*.dll
+*.class
+target/
+build/
+.idea/
+.vscode/
+.env
+
+# G*Power kurulum/ikili dosyaları
+*.zip
+*.msi
+/GPower*/
+
+# Ghidra projeleri ve ham decompile çıktıları
+*.gpr
+*.rep/
+*.lock
+*.lock~
+ghidra_projects/
+decompiled/
+analysis_tmp/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/

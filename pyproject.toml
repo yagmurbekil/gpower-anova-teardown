@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gpower-clone"
+version = "0.1.0"
+description = "CONTRACT.md 1.0.0 arayüzüyle anova-oneway güç analizi (YZM301 Teardown Sprint)"
+requires-python = ">=3.14"
+dependencies = ["scipy==1.18.0", "numpy==2.5.1"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[project.scripts]
+gpower-clone = "gpower_clone.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "bonus: bonus modlar (compromise, criterion, sensitivity); zorunlu testlerden ayırmak için -m \"not bonus\"",
+]
