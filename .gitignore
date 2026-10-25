@@ -28,3 +28,6 @@ __pycache__/
 *.pyc
 .venv/
 .pytest_cache/
+
+# Python package build artifacts
+src/gpower_clone.egg-info/
