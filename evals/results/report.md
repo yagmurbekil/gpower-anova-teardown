@@ -2,7 +2,7 @@
 
 Ajan dil modeli kullanmaz; token veya API maliyeti yoktur ve raporlanmaz.
 
-- Zaman: 2026-10-26T14:49:19+03:00
+- Zaman: 2026-10-26T15:22:41+03:00
 - Senaryo: 24 — başarılı 24, başarısız 0
   - temel: 10/10 başarılı
   - ek: 14/14 başarılı
