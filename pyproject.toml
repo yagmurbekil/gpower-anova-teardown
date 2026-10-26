@@ -10,10 +10,16 @@ requires-python = ">=3.14"
 dependencies = ["scipy==1.18.0", "numpy==2.5.1"]
 
 [project.optional-dependencies]
-test = ["pytest==9.1.1"]
+# MCP sunucusu (CONTRACT §7) ve kural tabanlı ajan (§8, LLM yok); CLI bunlara ihtiyaç duymaz.
+mcp = ["mcp==2.3.0"]
+agent = ["mcp==2.3.0"]
+test = ["pytest==9.1.1", "mcp==2.3.0"]
 
 [project.scripts]
 gpower-clone = "gpower_clone.cli:main"
+gpower-clone-mcp = "gpower_clone.mcp_server:main"
+gpower-clone-agent = "gpower_clone.agent.cli:main"
+gpower-clone-eval = "gpower_clone.agent.evaluate:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

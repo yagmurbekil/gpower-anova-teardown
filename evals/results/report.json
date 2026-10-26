@@ -1,0 +1,4753 @@
+{
+  "generated": "2026-10-26T14:49:19+03:00",
+  "agent": "rule-based",
+  "summary": {
+    "scenarios": 24,
+    "passed": 24,
+    "failed": [],
+    "metrics": {
+      "params": {
+        "ok": 15,
+        "n": 15
+      },
+      "mode": {
+        "ok": 15,
+        "n": 15
+      },
+      "tool": {
+        "ok": 12,
+        "n": 12
+      },
+      "call_ok": {
+        "ok": 12,
+        "n": 12
+      },
+      "oracle": {
+        "ok": 12,
+        "n": 12
+      },
+      "cli_match": {
+        "ok": 12,
+        "n": 12
+      },
+      "missing": {
+        "ok": 3,
+        "n": 3
+      },
+      "question": {
+        "ok": 7,
+        "n": 7
+      },
+      "detection": {
+        "ok": 8,
+        "n": 8
+      },
+      "no_calc": {
+        "ok": 12,
+        "n": 12
+      }
+    },
+    "mcp_calls_total": 60,
+    "mcp_transport_errors": 0,
+    "deterministic": true,
+    "nondeterministic_cases": []
+  },
+  "sets": {
+    "temel": [
+      {
+        "id": "Q01",
+        "kind": "calculate",
+        "turns": [
+          "Kurgusal bir çalışmada dört farklı egzersiz programının dinlenme nabzına etkisini karşılaştıracağız. Etki büyüklüğü f = 0.25, alpha = 0.05 ve hedef güç 0.80 olsun. Toplam kaç katılımcı gerekir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “kaç katılımcı” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “Etki büyüklüğü f = 0.25”\n  - alpha = 0.05  ← “alpha = 0.05”\n  - power = 0.8  ← “güç 0.80”\n  - groups = 4  ← “dört farklı egzersiz”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 11.25 (≈ 11.2500)\n  - critical_f = 2.6559388770305596 (≈ 2.6559)\n  - df1 = 3\n  - df2 = 176\n  - n_total = 180\n  - actual_power = 0.8039869128651759 (≈ 0.8040)\nÖzet: hedef güce ulaşmak için toplam N = 180 gerekir; bu N ile ulaşılan güç 0.8040 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "f": 0.25,
+                  "alpha": 0.05,
+                  "power": 0.8
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "power": 0.8,
+                    "groups": 4
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "f": 0.25,
+                  "alpha": 0.05,
+                  "power": 0.8
+                },
+                {
+                  "ncp": 11.25,
+                  "critical_f": 2.6559388770305596,
+                  "df1": 3,
+                  "df2": 176,
+                  "n_total": 180,
+                  "actual_power": 0.8039869128651759
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q02",
+        "kind": "calculate",
+        "turns": [
+          "Üç öğretim yöntemini karşılaştıran hayalî bir sınıf deneyi planlıyorum: %5 anlamlılık düzeyi, %80 güç, f = 0.25. Gerekli toplam örneklem büyüklüğü nedir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “Gerekli toplam örneklem” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f = 0.25”\n  - alpha = 0.05  ← “%5 anlamlılık düzeyi”\n  - power = 0.8  ← “%80 güç”\n  - groups = 3  ← “Üç öğretim yöntemini karşılaştıran”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 9.9375 (≈ 9.9375)\n  - critical_f = 3.054004173787927 (≈ 3.0540)\n  - df1 = 2\n  - df2 = 156\n  - n_total = 159\n  - actual_power = 0.8048872853010698 (≈ 0.8049)\nÖzet: hedef güce ulaşmak için toplam N = 159 gerekir; bu N ile ulaşılan güç 0.8049 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "alpha": 0.05,
+                  "power": 0.8,
+                  "f": 0.25
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "power": 0.8,
+                    "groups": 3
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "alpha": 0.05,
+                  "power": 0.8,
+                  "f": 0.25
+                },
+                {
+                  "ncp": 9.9375,
+                  "critical_f": 3.054004173787927,
+                  "df1": 2,
+                  "df2": 156,
+                  "n_total": 159,
+                  "actual_power": 0.8048872853010698
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q03",
+        "kind": "calculate",
+        "turns": [
+          "For a fictional three-arm trial with effect size f = 0.35, alpha = 0.01 and desired power 0.90, how many participants are needed in total?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “how many participants” ifadesinden\nKullanılan girdiler:\n  - f = 0.35  ← “effect size f = 0.35”\n  - alpha = 0.01  ← “alpha = 0.01”\n  - power = 0.9  ← “power 0.90”\n  - groups = 3  ← “three-arm”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 18.007499999999997 (≈ 18.0075)\n  - critical_f = 4.755635926905048 (≈ 4.7556)\n  - df1 = 2\n  - df2 = 144\n  - n_total = 147\n  - actual_power = 0.9002015527243773 (≈ 0.9002)\nÖzet: hedef güce ulaşmak için toplam N = 147 gerekir; bu N ile ulaşılan güç 0.9002 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "f": 0.35,
+                  "alpha": 0.01,
+                  "power": 0.9
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.35,
+                    "alpha": 0.01,
+                    "power": 0.9,
+                    "groups": 3
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "f": 0.35,
+                  "alpha": 0.01,
+                  "power": 0.9
+                },
+                {
+                  "ncp": 18.007499999999997,
+                  "critical_f": 4.755635926905048,
+                  "df1": 2,
+                  "df2": 144,
+                  "n_total": 147,
+                  "actual_power": 0.9002015527243773
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q04",
+        "kind": "calculate",
+        "turns": [
+          "Beş gruplu kurgusal bir tarım denemesinde toplam 100 parsel var. f = 0.25 ve alpha = 0.05 iken testin ulaştığı güç nedir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: post-hoc (ulaşılan güç) — “ulaştığı güç” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f = 0.25”\n  - alpha = 0.05  ← “alpha = 0.05”\n  - n_total = 100  ← “toplam 100”\n  - groups = 5  ← “Beş gruplu”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 6.25 (≈ 6.2500)\n  - critical_f = 2.467493623449646 (≈ 2.4675)\n  - df1 = 4\n  - df2 = 95\n  - power = 0.46633120262315364 (≈ 0.4663)\nÖzet: verilen N ile ulaşılan güç 0.4663 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "post-hoc",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "ncp": 6.25,
+                  "critical_f": 2.467493623449646,
+                  "df1": 4,
+                  "df2": 95,
+                  "power": 0.46633120262315364
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q05",
+        "kind": "calculate",
+        "turns": [
+          "Hayalî bir çalışmada 5 grup var ve her grupta 20 kişi bulunuyor. alpha = 0.05 ve güç 0.95 için saptanabilecek en küçük etki büyüklüğü f nedir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: sensitivity (saptanabilir en küçük etki büyüklüğü) — “en küçük etki” ifadesinden\nKullanılan girdiler:\n  - alpha = 0.05  ← “alpha = 0.05”\n  - power = 0.95  ← “güç 0.95”\n  - n_total = 100  ← “her grupta 20 × 5 grup”\n  - groups = 5  ← “5 grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 19.524587358242417 (≈ 19.5246)\n  - critical_f = 2.467493623449646 (≈ 2.4675)\n  - df1 = 4\n  - df2 = 95\n  - f = 0.44186635262534324 (≈ 0.4419)\nÖzet: saptanabilir en küçük etki büyüklüğü f 0.4419 (≈).\nNot: n_total = 20 × 5 = 100 (grup başına n × grup sayısı).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "sensitivity",
+                  "groups": 5,
+                  "alpha": 0.05,
+                  "power": 0.95,
+                  "n_total": 100
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "sensitivity",
+                  "inputs": {
+                    "alpha": 0.05,
+                    "power": 0.95,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "sensitivity",
+                  "groups": 5,
+                  "alpha": 0.05,
+                  "power": 0.95,
+                  "n_total": 100
+                },
+                {
+                  "ncp": 19.524587358242417,
+                  "critical_f": 2.467493623449646,
+                  "df1": 4,
+                  "df2": 95,
+                  "f": 0.44186635262534324
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q06",
+        "kind": "calculate",
+        "turns": [
+          "Kurgusal bir senaryo: 5 grup, toplam N = 100, f = 0.25. β/α oranını 1 alırsam (compromise analizi) hangi alpha ve güç düzeyi elde edilir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: compromise (β/α oranından α ve güç) — “compromise” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f = 0.25”\n  - beta_alpha_ratio = 1  ← “β/α oranını 1”\n  - n_total = 100  ← “toplam N = 100”\n  - groups = 5  ← “5 grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 6.25 (≈ 6.2500)\n  - critical_f = 1.4272491962285598 (≈ 1.4272)\n  - df1 = 4\n  - df2 = 95\n  - alpha = 0.23092470589762773 (≈ 0.2309)\n  - beta = 0.23092470589762792 (≈ 0.2309)\n  - power = 0.7690752941023721 (≈ 0.7691)\nÖzet: alpha 0.2309 (≈), güç 0.7691 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "compromise",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "beta_alpha_ratio": 1
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "compromise",
+                  "inputs": {
+                    "f": 0.25,
+                    "beta_alpha_ratio": 1.0,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "compromise",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "beta_alpha_ratio": 1
+                },
+                {
+                  "ncp": 6.25,
+                  "critical_f": 1.4272491962285598,
+                  "df1": 4,
+                  "df2": 95,
+                  "alpha": 0.23092470589762773,
+                  "beta": 0.23092470589762792,
+                  "power": 0.7690752941023721
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q07",
+        "kind": "calculate",
+        "turns": [
+          "5 grup ve toplam 100 katılımcılı hayalî bir deneyde f = 0.25 iken 0.95 güce ulaşmak için gereken alpha (criterion) nedir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: criterion (gerekli α) — “criterion” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f = 0.25”\n  - power = 0.95  ← “0.95 güce”\n  - n_total = 100  ← “toplam 100”\n  - groups = 5  ← “5 grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 6.25 (≈ 6.2500)\n  - critical_f = 0.6552637654727527 (≈ 0.6553)\n  - df1 = 4\n  - df2 = 95\n  - alpha = 0.6245994480148784 (≈ 0.6246)\nÖzet: hedef güç için gereken alpha 0.6246 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "criterion",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "power": 0.95
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "criterion",
+                  "inputs": {
+                    "f": 0.25,
+                    "power": 0.95,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "criterion",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "power": 0.95
+                },
+                {
+                  "ncp": 6.25,
+                  "critical_f": 0.6552637654727527,
+                  "df1": 4,
+                  "df2": 95,
+                  "alpha": 0.6245994480148784
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q08",
+        "kind": "ask",
+        "turns": [
+          "Dört diyet grubunu karşılaştıracağım kurgusal bir çalışmada f = 0.25 ve %90 güç istiyorum. Kaç kişi gerekir?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "missing": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “Kaç kişi” ifadesinden\nŞimdiye kadar alınan değerler:\n  - groups = 4  ← “Dört diyet grubunu”\n  - f = 0.25  ← “f = 0.25”\n  - power = 0.9  ← “%90 güç”\nHesaplama için eksik: anlamlılık düzeyi α (alpha). Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "f": 0.25,
+                  "power": 0.9
+                },
+                {
+                  "valid": false,
+                  "error": "--alpha a-priori modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "alpha"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q09",
+        "kind": "ask",
+        "turns": [
+          "Üç gruplu hayalî bir deneyde orta büyüklükte bir etki bekliyorum; alpha 0.05, güç 0.80. Örneklem büyüklüğü ne olmalı?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "missing": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “Örneklem büyüklüğü ne olmalı” ifadesinden\nŞimdiye kadar alınan değerler:\n  - groups = 3  ← “Üç gruplu”\n  - alpha = 0.05  ← “alpha 0.05”\n  - power = 0.8  ← “güç 0.80”\n“orta büyüklükte bir etki” sözel bir etikettir; varsayılan bir f değerine çevirmiyorum.\nHesaplama için eksik: etki büyüklüğü f. Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "alpha": 0.05,
+                  "power": 0.8
+                },
+                {
+                  "valid": false,
+                  "error": "--f a-priori modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "f"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Q10",
+        "kind": "ask",
+        "turns": [
+          "Toplam 120 katılımcılı kurgusal bir çalışmada f = 0.30 ve alpha = 0.05 iken gücüm ne olur?"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "missing": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: post-hoc (ulaşılan güç) — “gücüm ne” ifadesinden\nŞimdiye kadar alınan değerler:\n  - n_total = 120  ← “Toplam 120”\n  - f = 0.3  ← “f = 0.30”\n  - alpha = 0.05  ← “alpha = 0.05”\nHesaplama için eksik: grup sayısı (groups). Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "post-hoc",
+                  "n_total": 120,
+                  "f": 0.3,
+                  "alpha": 0.05
+                },
+                {
+                  "valid": false,
+                  "error": "--groups post-hoc modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "groups"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "ek": [
+      {
+        "id": "E01",
+        "kind": "clarify",
+        "turns": [
+          "Üç grup, f = 0.25, alfa 0.05 ve alfa 0.01, güç 0.80 ile a priori analiz yap."
+        ],
+        "checks": {
+          "detection": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Hesaplamadan önce şunların netleşmesi gerekiyor:\n  - anlamlılık düzeyi α (alpha) için birden fazla değer verildi: 0.05, 0.01. Hangisi geçerli?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E02",
+        "kind": "error",
+        "turns": [
+          "Üç grup, f = 0,25, alfa 1,5 ve güç 0,80 ile a priori analiz yap."
+        ],
+        "checks": {
+          "detection": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori\nAraç hatası [OUT_OF_RANGE] (alan: alpha): alpha aralık dışında (0 < değer < 1): 1.5\nanlamlılık düzeyi α (alpha) için geçerli bir değer belirtir misiniz?",
+            "status": "error",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 3,
+                  "f": 0.25,
+                  "alpha": 1.5,
+                  "power": 0.8
+                },
+                {
+                  "valid": false,
+                  "error": "alpha aralık dışında (0 < değer < 1): 1.5",
+                  "code": "OUT_OF_RANGE",
+                  "field": "alpha"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E03",
+        "kind": "error",
+        "turns": [
+          "4 grup, f = 0.25, alpha 0.0.5 ve power 0.8 için a priori analiz."
+        ],
+        "checks": {
+          "detection": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori\nAraç hatası [INVALID_VALUE] (alan: alpha): alpha sayı olmalı (ondalık ayırıcı nokta): '0.0.5'\nanlamlılık düzeyi α (alpha) için geçerli bir değer belirtir misiniz?",
+            "status": "error",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "f": 0.25,
+                  "alpha": "0.0.5",
+                  "power": 0.8
+                },
+                {
+                  "valid": false,
+                  "error": "alpha sayı olmalı (ondalık ayırıcı nokta): '0.0.5'",
+                  "code": "INVALID_VALUE",
+                  "field": "alpha"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E04",
+        "kind": "unsupported",
+        "turns": [
+          "İki bağımsız grup için t testi ile güç analizi yap, d = 0.5."
+        ],
+        "checks": {
+          "detection": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "“t testi” bu uygulamada desteklenmiyor.\nAraç yanıtı [UNSUPPORTED] (alan: test): t2-indep bu uygulamada desteklenmiyor (yalnızca anova-oneway)\nDesteklenen analiz: anova-oneway (F tests – ANOVA: Fixed effects, omnibus, one-way). Modlar ve gerekli parametreler:\n  - a-priori (gerekli örneklem büyüklüğü): f, alpha, power, groups\n  - post-hoc (ulaşılan güç): f, alpha, n_total, groups\n  - compromise (β/α oranından α ve güç): f, beta_alpha_ratio, n_total, groups\n  - criterion (gerekli α): f, power, n_total, groups\n  - sensitivity (saptanabilir en küçük etki büyüklüğü): alpha, power, n_total, groups\nTek yönlü ANOVA ile devam etmek ister misiniz?",
+            "status": "unsupported",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "test": "t2-indep"
+                },
+                {
+                  "valid": false,
+                  "error": "t2-indep bu uygulamada desteklenmiyor (yalnızca anova-oneway)",
+                  "code": "UNSUPPORTED",
+                  "field": "test"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E05",
+        "kind": "error",
+        "turns": [
+          "One-way ANOVA, a priori: f = 0.25, alpha = 0.05, power = 0.8, 3 groups, two-tailed."
+        ],
+        "checks": {
+          "detection": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori\nAraç hatası [UNKNOWN_PARAM] (alan: tails): --tails a-priori modunda kullanılmaz\n“tails” bu analizde kullanılmadığı için çıkarıldı. Devam etmek için kalan bilgileri onaylar ya da değiştirir misiniz?",
+            "status": "error",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "f": 0.25,
+                  "alpha": 0.05,
+                  "power": 0.8,
+                  "groups": 3,
+                  "tails": "two-tailed"
+                },
+                {
+                  "valid": false,
+                  "error": "--tails a-priori modunda kullanılmaz",
+                  "code": "UNKNOWN_PARAM",
+                  "field": "tails"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E06",
+        "kind": "ask_mode",
+        "turns": [
+          "ANOVA için güç analizi yap."
+        ],
+        "checks": {
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Hangi analiz modunu kullanmak istiyorsunuz? Seçenekler ve gerekli parametreler:\n  - a-priori (gerekli örneklem büyüklüğü): f, alpha, power, groups\n  - post-hoc (ulaşılan güç): f, alpha, n_total, groups\n  - compromise (β/α oranından α ve güç): f, beta_alpha_ratio, n_total, groups\n  - criterion (gerekli α): f, power, n_total, groups\n  - sensitivity (saptanabilir en küçük etki büyüklüğü): alpha, power, n_total, groups\nGerekli mod ve parametreleri belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E07",
+        "kind": "calculate",
+        "turns": [
+          "Dört grup ve %80 güç için gereken örneklem sayısını hesapla.",
+          "f 0,25",
+          "alfa 0,05"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “gereken örneklem” ifadesinden\nŞimdiye kadar alınan değerler:\n  - groups = 4  ← “Dört grup”\n  - power = 0.8  ← “%80 güç”\nHesaplama için eksik: etki büyüklüğü f, anlamlılık düzeyi α (alpha). Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "power": 0.8
+                },
+                {
+                  "valid": false,
+                  "error": "--f a-priori modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "f"
+                },
+                true
+              ]
+            ]
+          },
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “gereken örneklem” ifadesinden\nŞimdiye kadar alınan değerler:\n  - groups = 4  ← “Dört grup”\n  - power = 0.8  ← “%80 güç”\n  - f = 0.25  ← “f 0,25”\nHesaplama için eksik: anlamlılık düzeyi α (alpha). Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "power": 0.8,
+                  "f": 0.25
+                },
+                {
+                  "valid": false,
+                  "error": "--alpha a-priori modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "alpha"
+                },
+                true
+              ]
+            ]
+          },
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “gereken örneklem” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f 0,25”\n  - alpha = 0.05  ← “alfa 0,05”\n  - power = 0.8  ← “%80 güç”\n  - groups = 4  ← “Dört grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 11.25 (≈ 11.2500)\n  - critical_f = 2.6559388770305596 (≈ 2.6559)\n  - df1 = 3\n  - df2 = 176\n  - n_total = 180\n  - actual_power = 0.8039869128651759 (≈ 0.8040)\nÖzet: hedef güce ulaşmak için toplam N = 180 gerekir; bu N ile ulaşılan güç 0.8040 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "power": 0.8,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "power": 0.8,
+                    "groups": 4
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "groups": 4,
+                  "power": 0.8,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "ncp": 11.25,
+                  "critical_f": 2.6559388770305596,
+                  "df1": 3,
+                  "df2": 176,
+                  "n_total": 180,
+                  "actual_power": 0.8039869128651759
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E08",
+        "kind": "calculate",
+        "turns": [
+          "Effect size f is 0.40, alpha is 0.05. There are four groups and I want 80 percent power."
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — verilen alanlar yalnızca bu modun gerekli alanlarıyla örtüşüyor\nKullanılan girdiler:\n  - f = 0.4  ← “Effect size f is 0.40”\n  - alpha = 0.05  ← “alpha is 0.05”\n  - power = 0.8  ← “80 percent power”\n  - groups = 4  ← “four groups”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 12.160000000000002 (≈ 12.1600)\n  - critical_f = 2.7318070103092253 (≈ 2.7318)\n  - df1 = 3\n  - df2 = 72\n  - n_total = 76\n  - actual_power = 0.8234005796610385 (≈ 0.8234)\nÖzet: hedef güce ulaşmak için toplam N = 76 gerekir; bu N ile ulaşılan güç 0.8234 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "f": 0.4,
+                  "alpha": 0.05,
+                  "groups": 4,
+                  "power": 0.8
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.4,
+                    "alpha": 0.05,
+                    "power": 0.8,
+                    "groups": 4
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "f": 0.4,
+                  "alpha": 0.05,
+                  "groups": 4,
+                  "power": 0.8
+                },
+                {
+                  "ncp": 12.160000000000002,
+                  "critical_f": 2.7318070103092253,
+                  "df1": 3,
+                  "df2": 72,
+                  "n_total": 76,
+                  "actual_power": 0.8234005796610385
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E09",
+        "kind": "error",
+        "turns": [
+          "A priori analiz: 5 grup, f 0,25, alfa 0,05, güç 0,05."
+        ],
+        "checks": {
+          "detection": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori\nAraç hatası [INCONSISTENT] (alan: power): Power, alpha değerinden büyük olmalı\ngüç 1−β (power) için geçerli bir değer belirtir misiniz?",
+            "status": "error",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "groups": 5,
+                  "f": 0.25,
+                  "alpha": 0.05,
+                  "power": 0.05
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "power": 0.05,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "groups": 5,
+                  "f": 0.25,
+                  "alpha": 0.05,
+                  "power": 0.05
+                },
+                {
+                  "error": "Power, alpha değerinden büyük olmalı",
+                  "code": "INCONSISTENT",
+                  "field": "power"
+                },
+                true
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E10",
+        "kind": "clarify",
+        "turns": [
+          "3 grup, f 0.25, alfa 0.05, güç 0.8 ve 42 ile a priori analiz."
+        ],
+        "checks": {
+          "detection": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Hesaplamadan önce şunların netleşmesi gerekiyor:\n  - “42” sayısının hangi parametreye ait olduğunu anlayamadım. Hangi parametre?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E11",
+        "kind": "calculate",
+        "turns": [
+          "güç 0,80 olsun, alfa 0,05 olsun; etki büyüklüğü 0,25 ve 3 grup. A PRIORI analiz yap."
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: a-priori (gerekli örneklem büyüklüğü) — “A PRIORI” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “etki büyüklüğü 0,25”\n  - alpha = 0.05  ← “alfa 0,05”\n  - power = 0.8  ← “güç 0,80”\n  - groups = 3  ← “3 grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 9.9375 (≈ 9.9375)\n  - critical_f = 3.054004173787927 (≈ 3.0540)\n  - df1 = 2\n  - df2 = 156\n  - n_total = 159\n  - actual_power = 0.8048872853010698 (≈ 0.8049)\nÖzet: hedef güce ulaşmak için toplam N = 159 gerekir; bu N ile ulaşılan güç 0.8049 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "a-priori",
+                  "power": 0.8,
+                  "alpha": 0.05,
+                  "f": 0.25,
+                  "groups": 3
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "a-priori",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "power": 0.8,
+                    "groups": 3
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "a-priori",
+                  "power": 0.8,
+                  "alpha": 0.05,
+                  "f": 0.25,
+                  "groups": 3
+                },
+                {
+                  "ncp": 9.9375,
+                  "critical_f": 3.054004173787927,
+                  "df1": 2,
+                  "df2": 156,
+                  "n_total": 159,
+                  "actual_power": 0.8048872853010698
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E12",
+        "kind": "calculate",
+        "turns": [
+          "Post hoc power analysis: 5 groups, total N = 100, f = 0.25, alpha = 0.05."
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: post-hoc (ulaşılan güç) — “Post hoc” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “f = 0.25”\n  - alpha = 0.05  ← “alpha = 0.05”\n  - n_total = 100  ← “total N = 100”\n  - groups = 5  ← “5 groups”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 6.25 (≈ 6.2500)\n  - critical_f = 2.467493623449646 (≈ 2.4675)\n  - df1 = 4\n  - df2 = 95\n  - power = 0.46633120262315364 (≈ 0.4663)\nÖzet: verilen N ile ulaşılan güç 0.4663 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "post-hoc",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "f": 0.25,
+                  "alpha": 0.05
+                },
+                {
+                  "ncp": 6.25,
+                  "critical_f": 2.467493623449646,
+                  "df1": 4,
+                  "df2": 95,
+                  "power": 0.46633120262315364
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E13",
+        "kind": "calculate",
+        "turns": [
+          "Post hoc analiz: 5 grup, toplam 100 katılımcı, alfa 0,05.",
+          "etki büyüklüğü f 0.25"
+        ],
+        "checks": {
+          "mode": true,
+          "params": true,
+          "tool": true,
+          "call_ok": true,
+          "oracle": true,
+          "cli_match": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Mod: post-hoc (ulaşılan güç) — “Post hoc” ifadesinden\nŞimdiye kadar alınan değerler:\n  - groups = 5  ← “5 grup”\n  - n_total = 100  ← “toplam 100”\n  - alpha = 0.05  ← “alfa 0,05”\nHesaplama için eksik: etki büyüklüğü f. Bu değer(ler)i belirtir misiniz?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ],
+              [
+                "validate_anova_input",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "alpha": 0.05
+                },
+                {
+                  "valid": false,
+                  "error": "--f post-hoc modunda zorunlu",
+                  "code": "MISSING_PARAM",
+                  "field": "f"
+                },
+                true
+              ]
+            ]
+          },
+          {
+            "text": "Mod: post-hoc (ulaşılan güç) — “Post hoc” ifadesinden\nKullanılan girdiler:\n  - f = 0.25  ← “etki büyüklüğü f 0.25”\n  - alpha = 0.05  ← “alfa 0,05”\n  - n_total = 100  ← “toplam 100”\n  - groups = 5  ← “5 grup”\nSonuç (calculate_anova_oneway çıktısı, değiştirilmeden):\n  - ncp = 6.25 (≈ 6.2500)\n  - critical_f = 2.467493623449646 (≈ 2.4675)\n  - df1 = 4\n  - df2 = 95\n  - power = 0.46633120262315364 (≈ 0.4663)\nÖzet: verilen N ile ulaşılan güç 0.4663 (≈).",
+            "status": "calculated",
+            "tool_calls": [
+              [
+                "validate_anova_input",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "alpha": 0.05,
+                  "f": 0.25
+                },
+                {
+                  "valid": true,
+                  "test": "anova-oneway",
+                  "mode": "post-hoc",
+                  "inputs": {
+                    "f": 0.25,
+                    "alpha": 0.05,
+                    "n_total": 100,
+                    "groups": 5
+                  },
+                  "note": "Alan, biçim ve aralık kontrolleri geçti. Tutarlılık (INCONSISTENT) ve çözüm varlığı (NO_SOLUTION) hesap sırasında denetlenir."
+                },
+                false
+              ],
+              [
+                "calculate_anova_oneway",
+                {
+                  "mode": "post-hoc",
+                  "groups": 5,
+                  "n_total": 100,
+                  "alpha": 0.05,
+                  "f": 0.25
+                },
+                {
+                  "ncp": 6.25,
+                  "critical_f": 2.467493623449646,
+                  "df1": 4,
+                  "df2": 95,
+                  "power": 0.46633120262315364
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E14",
+        "kind": "clarify",
+        "turns": [
+          "a priori ve post hoc analiz yap: 3 grup, f 0.25."
+        ],
+        "checks": {
+          "detection": true,
+          "question": true,
+          "no_calc": true
+        },
+        "passed": true,
+        "failed_checks": [],
+        "transcript": [
+          {
+            "text": "Hesaplamadan önce şunların netleşmesi gerekiyor:\n  - Birden fazla mod istendi: a-priori, post-hoc. Hangisini kullanalım?",
+            "status": "asked",
+            "tool_calls": [
+              [
+                "get_supported_analyses",
+                {},
+                {
+                  "contract_version": "1.0.0",
+                  "name": "gpower-clone",
+                  "supported": [
+                    {
+                      "test": "anova-oneway",
+                      "title": "F tests – ANOVA: Fixed effects, omnibus, one-way",
+                      "modes": [
+                        {
+                          "mode": "a-priori",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "power",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "n_total",
+                            "actual_power"
+                          ]
+                        },
+                        {
+                          "mode": "post-hoc",
+                          "status": "required",
+                          "required_inputs": [
+                            "f",
+                            "alpha",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "compromise",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "beta_alpha_ratio",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha",
+                            "beta",
+                            "power"
+                          ]
+                        },
+                        {
+                          "mode": "criterion",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "f",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "alpha"
+                          ]
+                        },
+                        {
+                          "mode": "sensitivity",
+                          "status": "bonus",
+                          "required_inputs": [
+                            "alpha",
+                            "power",
+                            "n_total",
+                            "groups"
+                          ],
+                          "outputs": [
+                            "ncp",
+                            "critical_f",
+                            "df1",
+                            "df2",
+                            "f"
+                          ]
+                        }
+                      ],
+                      "fields": {
+                        "f": {
+                          "type": "number",
+                          "description": "Etki büyüklüğü f (Cohen's f), > 0"
+                        },
+                        "alpha": {
+                          "type": "number",
+                          "description": "Anlamlılık düzeyi α, 0 < alpha < 1"
+                        },
+                        "power": {
+                          "type": "number",
+                          "description": "Hedef güç (1 − β), 0 < power < 1"
+                        },
+                        "beta_alpha_ratio": {
+                          "type": "number",
+                          "description": "β/α oranı (compromise modu), > 0"
+                        },
+                        "n_total": {
+                          "type": "integer",
+                          "description": "Toplam örneklem büyüklüğü N, tam sayı ≥ 2 (groups'tan büyük olmalı)"
+                        },
+                        "groups": {
+                          "type": "integer",
+                          "description": "Grup sayısı k, tam sayı ≥ 2"
+                        }
+                      }
+                    }
+                  ],
+                  "not_implemented": [
+                    "chi2-contingency",
+                    "multireg-r2",
+                    "t-paired",
+                    "t2-indep"
+                  ],
+                  "notes": [
+                    "Varsayılan değer yoktur: modun her zorunlu alanı açıkça verilmelidir.",
+                    "Moda ait olmayan alan UNKNOWN_PARAM hatasıdır.",
+                    "Sayılar tam double hassasiyetle döner; yuvarlama yapılmaz."
+                  ]
+                },
+                false
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
